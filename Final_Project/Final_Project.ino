@@ -16,6 +16,7 @@ const int buttonPin = 3;      //the button connect to pin 3
 const int buzzerPin = 16;     //the button connect to pin 16
 int sensorValue = 0;          // value read from the sensor
 int buttonState = 0;          // variable for reading the pushbutton status
+int LEDState = 1;
 /*********************************************************/
 void setup() {
   pinMode(buzzerPin, OUTPUT);
@@ -33,7 +34,7 @@ void loop() {
   //read the state of the button value
   buttonState = digitalRead(buttonPin);
   // Wait a few seconds between measurements.
-  delay(2000);
+  delay(500);
 
   // Reading temperature or humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (it's a very slow sensor)
@@ -47,8 +48,12 @@ void loop() {
     Alarm();  //Triggers the Buzzer if the humidity sensor fails.
     return;
   }
-  // Adjust the color of the RGB LED based on temperature
-  if (temperature >= 30.0) { // Hot temperature threshold
+  if (!LEDState) {
+    return;
+  } else if (buttonState == HIGH) { //only activates LED if the button is not off.
+    toggleLED();
+  } // Adjust the color of the RGB LED based on temperature
+  else if (temperature >= 30.0) { // Hot temperature threshold
     setColor(255, 0, 0);     // Red
   } else if (temperature >= 27.5) { // Hotter than warm
     int red = map(temperature, 27.5, 30, 255, 0);
@@ -97,4 +102,8 @@ void setColor(int red, int green, int blue) {
   analogWrite(redPin, red);
   analogWrite(greenPin, green);
   analogWrite(bluePin, blue);
+}
+void toggleLED() {
+  LEDState = LEDState?0:1; //Flips the value of LEDState.
+  if (!LEDState) setColor(0,0,0);
 }
