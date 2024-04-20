@@ -14,7 +14,7 @@ const int photocellPin = A0;  //photoresistor attach to A0
 const int buttonPin = 3;      //the button connect to pin 3
 const int buzzerPin = 16;     //the button connect to pin 16
 int sensorValue = 0;  // value read from the sensor
-int buttonState= digitalRead(buttonPin);
+int buttonState = digitalRead(buttonPin);
 int lastButtonState = buttonState;
 bool ledOn = false;
 unsigned long lastDebounceTime = 0;
@@ -33,8 +33,8 @@ void setup() {
 }
 /*********************************************************/
 void loop() {
-  // Wait a few seconds between measurements.
-  delay(2000);
+  // Wait a bit between measurements.
+  delay(50);
   sensorValue = analogRead(photocellPin);  //read the value of A0
   // Reading temperature or humidity takes about 250 milliseconds!
   // Sensor readings may also be up to 2 seconds 'old' (it's a very slow sensor)
@@ -70,7 +70,6 @@ void loop() {
       // If LED is turned off, turn it off
       setColor(0, 0, 0);  // Turn off the LED
     }
-    delay(500);  // Debounce delay
   }
 
   // If LED is turned on, update its color based on temperature
